@@ -28,7 +28,7 @@ export default function App() {
         container: element,
         sharedLinks: [
           {
-            name: 'Personal link',
+            name: 'Personal link', // can be any name
             url:
              window.location.protocol + '//' + 
              window.location.host + window.location.pathname +

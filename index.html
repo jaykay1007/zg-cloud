@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    <style>
+        #root {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+<script>
+    // Generate a Kit Token by calling a method.
+    // @param 1: appID
+    // @param 2: serverSecret
+    // @param 3: Room ID
+    // @param 4: User ID
+    // @param 5: Username
+    const roomID = "testCallID"; //from api     
+    const userID =  "223"; // from api 
+    const userName = "Jk"; // USER NAME
+    const appID = 167959465; // APP ID from zego cloud
+    const serverSecret = "1c7c018987d37f50cf8adbbfe9909415"; // SERVER ID from zego cloud
+    const kitToken =  ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
+
+
+
+    const zp = ZegoUIKitPrebuilt.create(kitToken);
+    zp.joinRoom({
+        container: document.querySelector("#root"),
+        sharedLinks: [{
+            url: window.location.protocol + '//' + window.location.host + window.location.pathname + '?roomID=' + roomID,
+        }],
+        scenario: {
+           mode: ZegoUIKitPrebuilt.oneONoneCall, 
+           //  To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
+        },
+
+    });
+</script>
+
+</html>

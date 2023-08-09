@@ -1,19 +1,21 @@
 import React,{useContext} from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { MyContext } from "../components/context/Context";
+import { useNavigate } from "react-router-dom";
 
 
 
 
-export function getUrlParams(
-  url = window.location.href
-) {
-  let urlStr = url.split('?')[1];
-  return new URLSearchParams(urlStr);
-}
+// export function getUrlParams(
+//   url = window.location.href
+// ) {
+//   let urlStr = url.split('?')[1];
+//   return new URLSearchParams(urlStr);
+// }
 
 export default function VideoCall() {
     const {roomId } = useContext(MyContext);
+    const navigate = useNavigate();
 
 /**
  * This function initializes and joins a meeting using the ZegoUIKitPrebuilt library.
@@ -56,6 +58,10 @@ export default function VideoCall() {
       scenario: {
         mode: ZegoUIKitPrebuilt.OneONoneCall,
       },
+      onLeaveRoom: () => {
+        navigate("/");
+        window. location. reload();
+      }
     });
   
   };

@@ -59,9 +59,7 @@ const navigate = useNavigate();
         mode: ZegoUIKitPrebuilt.OneONoneCall,
       },
     });
-    onLeaveRoom =()=>{
-        navigate('/')
-    }
+  
   };
 
   return (

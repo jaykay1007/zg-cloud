@@ -1,7 +1,6 @@
 import React,{useContext} from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { MyContext } from "../components/context/Context";
-import { useNavigate } from "react-router-dom";
 
 
 
@@ -41,7 +40,6 @@ export default function VideoCall() {
       userName,
       10000000
     );
-const navigate = useNavigate();
   
     // Create a ZegoUIKitPrebuilt instance using the kit token
     const zp = ZegoUIKitPrebuilt.create(kitToken);

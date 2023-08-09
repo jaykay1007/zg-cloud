@@ -1,66 +1,40 @@
-import * as React from 'react';
-import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
+import { Suspense,lazy } from "react";
+import { BrowserRouter as Router,Routes, Route } from "react-router-dom";
 
+import "./App.css";
+import { MyContextProvider } from "./components/context/Context";
 
+// import PickedRm from "./pages/rmScreens/pickedRm";
+const WelcomePage = lazy(() => import("./pages/welcomePage"));
+const VideoCall = lazy(() => import("./pages/videoCall"));
 
-
-export function getUrlParams(
-  url = window.location.href
-) {
-  let urlStr = url.split('?')[1];
-  return new URLSearchParams(urlStr);
-}
-
-export default function App() {
-/**
- * This function initializes and joins a meeting using the ZegoUIKitPrebuilt library.
- * It generates a kit token and creates a ZegoUIKitPrebuilt instance to join the room.
- * It also sets up the shared links and the scenario mode for the call.
- * The meeting container is set using a ref.
- * 
- * @param {Element} element - The DOM element that serves as the meeting container.
- */
-  const myMeeting = async (element) => {
-    // Set the required parameters for the meeting
-    const appID = 167959465;
-    const roomID = "testCallID";
-    const serverSecret = "1c7c018987d37f50cf8adbbfe9909415";
-    const userName = "jk";
-    const userId = "12345";
-  
-    // Generate the kit token for the meeting
-    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
-      appID,
-      serverSecret,
-      roomID,
-      userId,
-      userName,
-      10000000
-    );
-  
-    // Create a ZegoUIKitPrebuilt instance using the kit token
-    const zp = ZegoUIKitPrebuilt.create(kitToken);
-  
-    // Join the room with the specified settings
-    zp.joinRoom({
-      container: element,
-      sharedLinks: [
-        {
-          name: 'Personal link',
-          url: `${window.location.protocol}//${window.location.host}${window.location.pathname}?roomID=${roomID}`,
-        },
-      ],
-      scenario: {
-        mode: ZegoUIKitPrebuilt.OneONoneCall,
-      },
+function App() {
+  if ('caches' in window) {
+    caches.keys().then(cacheNames => {
+      cacheNames.forEach(cacheName => {
+        caches.delete(cacheName);
+      });
     });
-  };
-
+  }
   return (
-    // Set the meeting container using a ref
-    <div
-      ref={myMeeting}
-      style={{ width: '100vw', height: '100vh' }}
-    ></div>
+    <MyContextProvider>
+      <Router>
+        <Suspense
+          fallback={
+            <>
+            {"Loading....."}
+            </>
+          }
+        >
+          <Routes>
+            <Route path="/" element={<WelcomePage />} />
+            <Route path="/room" element={<VideoCall />} />
+          
+          </Routes>
+        </Suspense>
+      </Router>
+    </MyContextProvider>
   );
 }
+
+export default App;
